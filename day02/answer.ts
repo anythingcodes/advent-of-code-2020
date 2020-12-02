@@ -1,74 +1,33 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
-
-
-async function processLineByLine() {
-  const fileStream = fs.createReadStream(path.join(__dirname, 'input.txt'));
-
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
-
-  // TODO: memoize
-  function isValidByOccurrence(min: number, max: number, char: string, pw: string) : boolean {
-    const pwArr : string[] = pw.split('');
-    let charCount = 0;
-    if (min > max) { // TODO: also check for negative
-      return false;
-    }
-    for (let i = 0; i < pwArr.length; i++) {
-      if (pwArr[i] === char) {
-        charCount++;
-      }
-      if (charCount > max) {
-        return false;
-      }
-    }
-    if (charCount >= min && charCount <= max) {
-      return true;
-    }
-    return false;
-  }
-
-  function isValidByPosition(first: number, second: number, char: string, pw: string) : boolean {
-    const pwArr : string[] = pw.split('');
-    const firstIndex = first - 1;
-    const secondIndex = second - 1;
-
-    // TODO: Check for invalid positions
-    const firstCharMatches = (pwArr[firstIndex] === char);
-    const secondCharMatches = (pwArr[secondIndex] === char);
-
-    if (firstCharMatches !== secondCharMatches) {
-      return true;
-    }
-    return false;
-  }
-
-  const validResults = [];
-
-  for await (const line of rl) {
-    const [policy, password] = line.split(': ');
-    const [range, characterTemp] = policy.split(' ');
-    const character = characterTemp.trim();
-    const [firstTemp, secondTemp] = range.split('-');
-    const first = parseInt(firstTemp, 10); // TODO: error handling
-    const second = parseInt(secondTemp, 10); // TODO: error handling
-    // PART ONE
-    // if (isValidByOccurrence(first, second, character, password)) {
-    //   validResults.push(password);
-    // } else {
-    //   console.log(`${password} is invalid according to ${policy}`);
-    // }
-    if (isValidByPosition(first, second, character, password)) {
-      validResults.push(password);
-    } else {
-      console.log(`${password} is invalid according to ${policy}`);
-    }
-  }
-  console.log(validResults.length);
+interface IEntry {
+  first: number;
+  second: number;
+  char: string;
+  pass: string;
 }
+export const processInput = (input: string): IEntry[] => {
+  return input.split('\n').map((x) => {
+    const [policy, pass] = x.split(':');
+    const [counts, char] = policy.split(' ');
+    const [first, second] = counts.split('-').map((y) => parseInt(y, 10));
+    return {first, second, char, pass};
+  });
+};
 
-processLineByLine();
+export const partOne = (input: IEntry[]) => {
+  return input.reduce((curr, x) => {
+    const charCount = x.pass.replace(new RegExp(`[^${x.char}]`, 'g'), '').length;
+    return charCount >= x.first && charCount <= x.second ? curr + 1 : curr;
+  }, 0);
+};
+
+export const partTwo = (input: IEntry[]) => {
+  return input.reduce((curr, x) => {
+    const passArray = x.pass.split('');
+    if (passArray[x.first] === x.char && passArray[x.second] !== x.char) {
+      return curr + 1;
+    } else if (passArray[x.first] !== x.char && passArray[x.second] === x.char) {
+      return curr + 1;
+    }
+    return curr;
+  }, 0);
+};
