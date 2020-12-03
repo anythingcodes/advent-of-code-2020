@@ -1,6 +1,6 @@
 # Advent of Code // 2020
 
-Taking a crack at the [2020 Advent of Code](https://www.adventofcode.com) challenge of two puzzles per day in December. Solutions written in TypeScript with Jerst for testing. Run with `yarn test`.
+Taking a crack at the [2020 Advent of Code](https://www.adventofcode.com) challenge of two puzzles per day in December. Solutions written in TypeScript with Jest for testing. Run with `yarn test`.
 
 ```
 d8888b.  a8888a  d8888b.  a8888a
