@@ -1,3 +1,5 @@
+// TODO: Refactor this whole thing :) Day 1 was before I set up Jest and a file-reading util ✨
+
 const input: number[] = [
   1619,
   1919,
@@ -202,7 +204,7 @@ const input: number[] = [
 ];
 
 
-function findSum(array, startIndex, sum, count = 2) {
+function findSum(array: number[], startIndex: number, sum: number, count: number = 2) {
   for (let i = 0; i < array.length; i++) {
     const n = array[i];
     if (count > 2) {
