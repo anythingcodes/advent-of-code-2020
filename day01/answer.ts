@@ -1,7 +1,7 @@
 export const processInput = (input: string): number[] =>
    input.split('\n').map((x) => parseInt(x, 10));
 
-const findSum = (array: number[], startIndex: number, sum: number, count: number = 2) : number[] | null => {
+const findSum = (array: number[], startIndex: number, sum: number, count: number = 2) : number[] => {
   for (let i = 0; i < array.length; i++) {
     const num = array[i];
     if (count > 2) {
@@ -19,7 +19,7 @@ const findSum = (array: number[], startIndex: number, sum: number, count: number
       throw new Error("findSum: Invalid count");
     }
   }
-  return null;
+  return null as any;
 };
 
 export const partOne = (input: number[]) => {
