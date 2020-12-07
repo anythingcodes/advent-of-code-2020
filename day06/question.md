@@ -1,4 +1,4 @@
-# Day 5: Day 6: Custom Customs
+# Day 6: Custom Customs
 
 ## Part 1
 
