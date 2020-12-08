@@ -51,8 +51,6 @@ export const partTwo = (lines: string[]): number => {
       linesClone[i] = linesClone[i].replace('nop', 'jmp');
     } else if (linesClone[i].includes('jmp')) {
       linesClone[i] = linesClone[i].replace('jmp', 'nop');
-    } else {
-      continue;
     }
 
     let acc = 0;
